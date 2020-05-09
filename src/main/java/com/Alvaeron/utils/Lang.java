@@ -79,7 +79,10 @@ public enum Lang {
     CARD_NATION_USAGE("card-nation-usage", "&cUsage: &f/card nation %n."),
     CARD_DESC_USAGE("card-desc-usage", "&cUsage: &f/card desc [description]."),
     CARD_OFFLINE("card-offline", "&cError: &f%p is offline.");
- 
+
+    EXILE_USAGE("exile-usage","%n has been queued for exile for &r.");
+    EXILE_APPROVAL("exile-approval","%n has been approved for exile.");
+    EXILE_EMPTY("exile-empty","There is nobody in queue for exile.");
     private String path;
     private String def;
     private static YamlConfiguration LANG;

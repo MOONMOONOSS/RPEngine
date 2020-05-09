@@ -89,6 +89,7 @@ public class Engine extends JavaPlugin {
 		getCommand("countdown").setExecutor(new CountdownCommand(this));
 		getCommand("rpengine").setExecutor(new RPEngineCommand(this));
 		getCommand("spawnpoint").setExecutor(new SpawnPointCommand(this));
+		getCommand("exile").setExecutor(new ExileCommand(this));
 		ChatCommands ch = new ChatCommands(this);
 		getCommand("whisper").setExecutor(ch);
 		getCommand("shout").setExecutor(ch);

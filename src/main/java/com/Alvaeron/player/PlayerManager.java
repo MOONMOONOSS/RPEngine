@@ -14,7 +14,7 @@ import com.Alvaeron.Engine;
 public class PlayerManager implements Listener {
 	public Engine plugin;
 	public ArrayList<RoleplayPlayer> players = new ArrayList<RoleplayPlayer>();
-
+	public Queue<RoleplayPlayer> exileQueue = new Queue<RoleplayPlayer>
 	public PlayerManager(Engine plugin) {
 		this.plugin = plugin;
 	}

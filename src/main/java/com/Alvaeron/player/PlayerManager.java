@@ -26,6 +26,7 @@ public class PlayerManager implements Listener {
 
 	public RoleplayPlayer getPlayer(UUID uuid) {
 		for (RoleplayPlayer p : players) {
+			if (p == null) continue;
 			if (p.uuid.equals(uuid)) {
 				return p;
 			}

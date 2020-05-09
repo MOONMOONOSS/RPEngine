@@ -49,8 +49,10 @@ public class ChatCommands extends AbstractCommand {
 						sb2.append(args[j]).append(" ");
 					}
 					final String message2 = sb2.toString().trim();
+					String race = rpp.getRace();
 					Engine.mu.sendRangedMessage(player, Lang.CHAT_WHISPER_FORMAT.toString()
 							.replace("%m", message2)
+							.replace("%nc", Engine.mu.getRaceColour(race).toString())
 							.replace("%n", rpp.getName())
 							, "whisperRange");
 	

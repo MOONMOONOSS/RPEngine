@@ -69,6 +69,8 @@ public class MySQLManager {
 		if(plugin.getConfig().contains("table-prefix")){
 			tablePrefix = plugin.getConfig().getString("table-prefix");
 		}
+
+		openConnection();
 	}
 	
 	public void onDisable() {
@@ -123,23 +125,16 @@ public class MySQLManager {
 	}
 
 	public void initDatabase() {
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-			@Override
-			public void run() {
-				openConnection();
-				try {
-					final PreparedStatement sql = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `" + tablePrefix + "Cards` (`UUID` varchar(100) NOT NULL UNIQUE, `username` varchar(100), `name` varchar(250), `race` varchar(100), `nation` varchar(100), `gender` varchar(20), `age` INT, `desc` TEXT, `channel` varchar(20), `ooc` tinyint(1), `OOCban` tinyint(1), `BannedTill` DATETIME) ;");
-					sql.execute();
-					sql.close();
-				} catch (Exception e) {
-					if(Engine.utils.sendDebug()){
-						e.printStackTrace();
-					}
-					return;
-				} finally {
-					closeConnection();
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			try {
+				final PreparedStatement sql = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `" + tablePrefix + "Cards` (`UUID` varchar(100) NOT NULL UNIQUE, `username` varchar(100), `name` varchar(250), `race` varchar(100), `nation` varchar(100), `gender` varchar(20), `age` INT, `desc` TEXT, `channel` varchar(20), `ooc` tinyint(1), `OOCban` tinyint(1), `BannedTill` DATETIME) ;");
+				sql.execute();
+				sql.close();
+			} catch (Exception e) {
+				if(Engine.utils.sendDebug()){
+					e.printStackTrace();
 				}
-				closeConnection();
+				return;
 			}
 		});
 	}
@@ -148,56 +143,49 @@ public class MySQLManager {
 	}
 	
 	public void createRoleplayPlayer(final UUID uuid, final String playerName) {
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-			@Override
-			public void run() {
-				openConnection();
-				try {
-					boolean online = true;
-					if(Bukkit.getPlayer(uuid) == null){online = false;}
-					PreparedStatement sql = connection.prepareStatement("SELECT * FROM `" + tablePrefix + "Cards` WHERE `UUID`=?;");
-					sql.setString(1, uuid.toString());
-					ResultSet rs = sql.executeQuery();
-					if (rs.next()) {
-						PreparedStatement sql3 = connection.prepareStatement("UPDATE `" + tablePrefix + "Cards` SET `username`=? WHERE `UUID`=?;");
-						sql3.setString(1, playerName);
-						sql3.setString(2, uuid.toString());
-						sql3.executeUpdate();
-						sql3.close();
-						Engine.manager.addPlayer(new RoleplayPlayer(uuid, playerName, rs.getString("name"), rs.getString("race"), rs.getString("nation"), Gender.valueOf(rs.getString("gender").toUpperCase()), rs.getInt("age"), rs.getString("desc"), Channel.RP, true, online,plugin));
-						if (rs.getInt("ooc") == 0) {
-							setStringField(uuid, "ooc", "1");
-						}
-					} else {
-						final PreparedStatement sql2 = connection.prepareStatement("INSERT INTO `" + tablePrefix + "Cards` (`UUID`, `username`, `name`, `race`, `nation`, `gender`, `age`, `desc`, `channel`, `ooc`) VALUES(?,?,?,?,?,?,?,?,?,?);");
-						sql2.setString(1, uuid.toString());
-						sql2.setString(2, playerName);
-						sql2.setString(3, "NONE");
-						sql2.setString(4, "NONE");
-						sql2.setString(5, "NONE");
-						sql2.setString(6, "NONE");
-						sql2.setString(7, "0");
-						sql2.setString(8, "NONE");
-						sql2.setString(9, "RP");
-						sql2.setString(10, "1");
-						sql2.execute();
-						sql2.close();
-						Engine.manager.addPlayer(new RoleplayPlayer(uuid, playerName, playerName, "NONE", "NONE", Gender.NONE, 0, "NONE", Channel.RP, true, online,plugin));
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			try {
+				boolean online = true;
+				if(Bukkit.getPlayer(uuid) == null){online = false;}
+				PreparedStatement sql = connection.prepareStatement("SELECT * FROM `" + tablePrefix + "Cards` WHERE `UUID`=?;");
+				sql.setString(1, uuid.toString());
+				ResultSet rs = sql.executeQuery();
+				if (rs.next()) {
+					PreparedStatement sql3 = connection.prepareStatement("UPDATE `" + tablePrefix + "Cards` SET `username`=? WHERE `UUID`=?;");
+					sql3.setString(1, playerName);
+					sql3.setString(2, uuid.toString());
+					sql3.executeUpdate();
+					sql3.close();
+					Engine.manager.addPlayer(new RoleplayPlayer(uuid, playerName, rs.getString("name"), rs.getString("race"), rs.getString("nation"), Gender.valueOf(rs.getString("gender").toUpperCase()), rs.getInt("age"), rs.getString("desc"), Channel.RP, true, online,plugin));
+					if (rs.getInt("ooc") == 0) {
+						setStringField(uuid, "ooc", "1");
 					}
-					sql.close();
-					rs.close();
-				} catch (SQLException e) {
-					if(Engine.utils.sendDebug()){
-						e.printStackTrace();
-					}
-					return;
-				} finally {
-					closeConnection();
+				} else {
+					final PreparedStatement sql2 = connection.prepareStatement("INSERT INTO `" + tablePrefix + "Cards` (`UUID`, `username`, `name`, `race`, `nation`, `gender`, `age`, `desc`, `channel`, `ooc`) VALUES(?,?,?,?,?,?,?,?,?,?);");
+					sql2.setString(1, uuid.toString());
+					sql2.setString(2, playerName);
+					sql2.setString(3, "NONE");
+					sql2.setString(4, "NONE");
+					sql2.setString(5, "NONE");
+					sql2.setString(6, "NONE");
+					sql2.setString(7, "0");
+					sql2.setString(8, "NONE");
+					sql2.setString(9, "RP");
+					sql2.setString(10, "1");
+					sql2.execute();
+					sql2.close();
+					Engine.manager.addPlayer(new RoleplayPlayer(uuid, playerName, playerName, "NONE", "NONE", Gender.NONE, 0, "NONE", Channel.RP, true, online,plugin));
 				}
-				closeConnection();
-
-				Engine.manager.getPlayer(uuid).setTag();
+				sql.close();
+				rs.close();
+			} catch (SQLException e) {
+				if(Engine.utils.sendDebug()){
+					e.printStackTrace();
+				}
+				return;
 			}
+
+			Engine.manager.getPlayer(uuid).setTag();
 		});
 
 	}
@@ -213,25 +201,18 @@ public class MySQLManager {
 	 *            - the String to set
 	 */
 	public void setStringField(final UUID u, final String field, final String data) {
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-			@Override
-			public void run() {
-				openConnection();
-				try {
-					final PreparedStatement sql1 = connection.prepareStatement("UPDATE `" + tablePrefix + "Cards` SET `" + field + "`=? WHERE `UUID`=?;");
-					sql1.setString(1, data);
-					sql1.setString(2, u.toString());
-					sql1.executeUpdate();
-					sql1.close();
-				} catch (Exception e) {
-					if(Engine.utils.sendDebug()){
-						e.printStackTrace();
-					}
-					return;
-				} finally {
-					closeConnection();
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			try {
+				final PreparedStatement sql1 = connection.prepareStatement("UPDATE `" + tablePrefix + "Cards` SET `" + field + "`=? WHERE `UUID`=?;");
+				sql1.setString(1, data);
+				sql1.setString(2, u.toString());
+				sql1.executeUpdate();
+				sql1.close();
+			} catch (Exception e) {
+				if(Engine.utils.sendDebug()){
+					e.printStackTrace();
 				}
-				closeConnection();
+				return;
 			}
 		});
 	}
@@ -247,25 +228,18 @@ public class MySQLManager {
 	 *            - the integer to set
 	 */
 	public void setIntegerField(final UUID u, final String field, final int data) {
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-			@Override
-			public void run() {
-				openConnection();
-				try {
-					final PreparedStatement sql1 = connection.prepareStatement("UPDATE `" + tablePrefix + "Cards` SET `" + field + "`=? WHERE `UUID`=?;");
-					sql1.setInt(1, data);
-					sql1.setString(2, u.toString());
-					sql1.executeUpdate();
-					sql1.close();
-				} catch (Exception e) {
-					if(Engine.utils.sendDebug()){
-						e.printStackTrace();
-					}
-					return;
-				} finally {
-					closeConnection();
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			try {
+				final PreparedStatement sql1 = connection.prepareStatement("UPDATE `" + tablePrefix + "Cards` SET `" + field + "`=? WHERE `UUID`=?;");
+				sql1.setInt(1, data);
+				sql1.setString(2, u.toString());
+				sql1.executeUpdate();
+				sql1.close();
+			} catch (Exception e) {
+				if(Engine.utils.sendDebug()){
+					e.printStackTrace();
 				}
-				closeConnection();
+				return;
 			}
 		});
 	}
@@ -291,5 +265,4 @@ public class MySQLManager {
 	public String getDefaultValue(String text, String compare) {
 		return text.equalsIgnoreCase(compare) ? ChatColor.GRAY + compare : text;
 	}
-
 }

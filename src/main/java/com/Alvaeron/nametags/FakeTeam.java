@@ -3,6 +3,7 @@ package com.Alvaeron.nametags;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -62,5 +63,21 @@ public class FakeTeam {
         }
         return builder.toString();
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public ArrayList<String> getMembers() {
+		return members;
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public String getSuffix() {
+		return suffix;
+	}
 
 }

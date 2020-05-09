@@ -1,8 +1,12 @@
 package com.Alvaeron.player;
 
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +18,8 @@ import com.Alvaeron.Engine;
 public class PlayerManager implements Listener {
 	public Engine plugin;
 	public ArrayList<RoleplayPlayer> players = new ArrayList<RoleplayPlayer>();
-	public Queue<RoleplayPlayer> exileQueue = new Queue<RoleplayPlayer>
+	public Queue<ExilePlayer> exileQueue = new LinkedList<ExilePlayer>();
+	public Location exileLocation;
 	public PlayerManager(Engine plugin) {
 		this.plugin = plugin;
 	}

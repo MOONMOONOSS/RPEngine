@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -17,6 +19,7 @@ import com.Alvaeron.commands.BirdCommand;
 import com.Alvaeron.commands.CardCommand;
 import com.Alvaeron.commands.ChatCommands;
 import com.Alvaeron.commands.CountdownCommand;
+import com.Alvaeron.commands.ExileCommand;
 import com.Alvaeron.commands.RPEngineCommand;
 import com.Alvaeron.commands.RollCommand;
 import com.Alvaeron.commands.SpawnPointCommand;
@@ -78,7 +81,8 @@ public class Engine extends JavaPlugin {
 			mm.createRoleplayPlayer(pl);
 		}
 		checkSoftDependencies();
-
+		
+		loadVars();
 		loadLang();
 	}
 
@@ -90,6 +94,7 @@ public class Engine extends JavaPlugin {
 		getCommand("rpengine").setExecutor(new RPEngineCommand(this));
 		getCommand("spawnpoint").setExecutor(new SpawnPointCommand(this));
 		getCommand("exile").setExecutor(new ExileCommand(this));
+		getCommand("exile").setTabCompleter(new ExileCommand(this));
 		ChatCommands ch = new ChatCommands(this);
 		getCommand("whisper").setExecutor(ch);
 		getCommand("shout").setExecutor(ch);
@@ -121,7 +126,17 @@ public class Engine extends JavaPlugin {
 		perms = rsp.getProvider();
 		return perms != null;
 	}
+	public void loadVars() {
+		ConfigurationSection location = this.getConfig().getConfigurationSection("exile");
+		Double x = location.getDouble("x");
+		Double y = location.getDouble("y");
+		Double z = location.getDouble("z"); 
+		String world = location.getString("world");
 
+		Location l = new Location(Bukkit.getWorld(world), x, y, z);
+		
+		manager.exileLocation = l;		
+	}
 	/**
 	 * Load the lang.yml file.
 	 */

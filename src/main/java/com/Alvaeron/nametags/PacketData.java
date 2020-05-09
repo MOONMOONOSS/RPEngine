@@ -13,8 +13,9 @@ enum PacketData {
     v1_8("g", "c", "d", "a", "h", "i", "b", "NA", "e"),
     v1_9("h", "c", "d", "a", "i", "j", "b", "f", "e"),
     v1_10("h", "c", "d", "a", "i", "j", "b", "f", "e"),
-    v1_11("h", "c", "d", "a", "i", "j", "b", "f", "e"),
-    v1_12("h", "c", "d", "a", "i", "j", "b", "f", "e");
+    v1_11 ("h", "c", "d", "a", "i", "j", "b", "f", "e"),
+    v1_12 ("h", "c", "d", "a", "i", "j", "b", "f", "e");
+
 
     private String members;
     private String prefix;
@@ -25,5 +26,32 @@ enum PacketData {
     private String displayName;
     private String push;
     private String visibility;
+	public String getPrefix() {
+		return prefix;
+	}
+	public String getSuffix() {
+		return suffix;
+	}
+	public String getMembers() {
+		return members;
+	}
+	public String getTeamName() {
+		return teamName;
+	}
+	public String getParamInt() {
+		return paramInt;
+	}
+	public String getPackOption() {
+		return packOption;
+	}
+	public String getDisplayName() {
+		return displayName;
+	}
+	public String getPush() {
+		return push;
+	}
+	public String getVisibility() {
+		return visibility;
+	}
 
 }

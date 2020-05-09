@@ -1,18 +1,20 @@
 package com.Alvaeron.commands;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import com.Alvaeron.Engine;
 import com.Alvaeron.player.RoleplayPlayer;
 
-public abstract class AbstractCommand implements CommandExecutor {
+public abstract class AbstractCommand implements CommandExecutor, TabCompleter {
 	protected Engine plugin;
 	private Senders[] definedSenders;
 	protected Player player;
@@ -44,6 +46,11 @@ public abstract class AbstractCommand implements CommandExecutor {
 	 *            - the arguments
 	 * @return did this command succeed?
 	 */
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args){
+		return null;
+	}
+	
 	public abstract boolean handleCommand(CommandSender sender, Command cmd, String Commandlabel,
 			String[] args);
 

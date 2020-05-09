@@ -54,3 +54,9 @@ playerHealth: 40
 
 # What language messages are sent in
 language: en_us
+
+exile:
+  x: 0
+  y: 0
+  z: 0
+  world: world

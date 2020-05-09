@@ -33,6 +33,8 @@ commands:
   spawnpoint:
     description: Teleport command for nation spawnpoints
     aliases: [nationspawn, rpspawn, nationhome, rphome]
+  exile:
+    description: Queues a player for exile. Use exile approve to approve an exile, and exile next to see the next player queued for exile
 
 permissions:
   #Spawnpoint permissions
@@ -44,7 +46,10 @@ permissions:
     description: Allows teleport to own nations spawnpoint
   rpengine.spawnpoint.others:
     description: Allows teleport to other nations
-
+  rpengine.exile.approve:
+    description: Allows approval for exiling players
+  rpengine.exile.set:
+    description: Allows setting players in queue for exile
   #Chat perms
   rpengine.chat.color:
     description: Allows you to use colors in the chat

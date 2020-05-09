@@ -112,4 +112,36 @@ public class RoleplayPlayer {
 			return this == Gender.NONE ? "NONE" : Character.toString(this.name().charAt(0)).toUpperCase() + this.name().toLowerCase().substring(1);
 		}
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public String getRace() {
+		return race;
+	}
+
+	public String getNation() {
+		return nation;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public Channel getChannel() {
+		return channel;
+	}
+
+	public boolean isOOC() {
+		return OOC;
+	}
 }

@@ -13,7 +13,7 @@ public class NametagManager {
 
     private final HashMap<String, FakeTeam> TEAMS = new HashMap<>();
     private final HashMap<String, FakeTeam> CACHED_FAKE_TEAMS = new HashMap<>();
-    private Engine plugin;
+    private final Engine plugin;
 
     /**
      * Gets the current team given a prefix and suffix
@@ -35,7 +35,7 @@ public class NametagManager {
      * we do NOT change that.
      */
     @SuppressWarnings("deprecation")
-	private void addPlayerToTeam(String player, String prefix, String suffix, int sortPriority, boolean playerTag) {
+    private void addPlayerToTeam(String player, String prefix, String suffix, int sortPriority, boolean playerTag) {
         FakeTeam previous = getFakeTeam(player);
 
         if (previous != null && previous.isSimilar(prefix, suffix)) {
@@ -75,7 +75,7 @@ public class NametagManager {
     }
 
     @SuppressWarnings("deprecation")
-	private FakeTeam reset(String player, FakeTeam fakeTeam) {
+    private FakeTeam reset(String player, FakeTeam fakeTeam) {
         if (fakeTeam != null && fakeTeam.getMembers().remove(player)) {
             boolean delete;
             Player removing = Bukkit.getPlayerExact(player);

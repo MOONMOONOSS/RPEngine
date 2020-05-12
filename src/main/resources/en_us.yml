@@ -26,8 +26,6 @@ card-select-nation: "&aSelect your Nations:"
 card-updated-to: "&a%f updated to&f: %v"
 #Note: you can't use color codes with the these values
 card-click-to-show: "Click to show your card"
-card-click-to-race: "Click to set your race to %r"
-card-click-to-nation: "Click to set your nation to %n"
 card-click-to-edit: "Click to edit"
 card-click-to-gender: "Click to set your gender to %g"
 card-click-to-race: "Click to set your race to %r"
@@ -81,7 +79,7 @@ spawnpoint-teleport: "&aYou have been teleported to &f%n"
 # %m = Message
 # %c = Command
 chat-shout-usage: "&cUsage: &f/%c [message]."
-chat-shout-format: "&c[Shout] &7%n &f%m"
+chat-shout-format: "&c[Shout] %nc%n &f%m"
 chat-whisper-usage: "&cUsage: &f/%c [message]."
 chat-whisper-format: "&9[Whisper] %nc%n &f%m"
 # %r = Race

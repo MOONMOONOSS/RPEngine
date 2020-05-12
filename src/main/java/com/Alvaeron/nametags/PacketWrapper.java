@@ -9,7 +9,7 @@ import java.util.List;
 public class PacketWrapper {
 
     public String error;
-    private Object packet = PacketAccessor.createPacket();
+    private final Object packet = PacketAccessor.createPacket();
 
     public PacketWrapper(String name, int param, List<String> members) {
         if (param != 3 && param != 4) {
@@ -19,7 +19,7 @@ public class PacketWrapper {
         setupMembers(members);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public PacketWrapper(String name, String prefix, String suffix, int param, Collection<?> players) {
         setupDefaults(name, param);
         if (param == 0 || param == 2) {
@@ -42,7 +42,7 @@ public class PacketWrapper {
         }
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private void setupMembers(Collection<?> players) {
         try {
             players = players == null || players.isEmpty() ? new ArrayList<>() : players;

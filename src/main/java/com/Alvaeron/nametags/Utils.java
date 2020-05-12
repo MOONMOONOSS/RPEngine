@@ -1,5 +1,6 @@
 package com.Alvaeron.nametags;
 
+import com.Alvaeron.Engine;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -8,8 +9,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.Alvaeron.Engine;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,13 +16,12 @@ import java.util.List;
 
 public class Utils {
 
-	private Engine plugin;
-	
-	public Utils(Engine plugin) 
-	{
-		this.plugin = plugin;
-	}
-	
+    private final Engine plugin;
+
+    public Utils(Engine plugin) {
+        this.plugin = plugin;
+    }
+
     public static String format(String[] text, int to, int from) {
         return StringUtils.join(text, ' ', to, from).replace("'", "");
     }
@@ -57,19 +55,14 @@ public class Utils {
                 file.createNewFile();
             }
         } catch (IOException e) {
-			if(Engine.utils.sendDebug()){
-				e.printStackTrace();
-			}
+            if (Engine.utils.sendDebug()) {
+                e.printStackTrace();
+            }
         }
 
         return YamlConfiguration.loadConfiguration(file);
     }
-	public boolean sendDebug(){
-		if(plugin.getConfig().contains("debug")){
-			return plugin.getConfig().getBoolean("debug");
-		}
-		return false;
-	}
+
     public static YamlConfiguration getConfig(File file, String resource, Plugin plugin) {
         try {
             if (!file.exists()) {
@@ -86,12 +79,19 @@ public class Utils {
                 outputStream.close();
             }
         } catch (IOException e) {
-			if(Engine.utils.sendDebug()){
-				e.printStackTrace();
-			}
+            if (Engine.utils.sendDebug()) {
+                e.printStackTrace();
+            }
         }
 
         return YamlConfiguration.loadConfiguration(file);
+    }
+
+    public boolean sendDebug() {
+        if (plugin.getConfig().contains("debug")) {
+            return plugin.getConfig().getBoolean("debug");
+        }
+        return false;
     }
 
 }

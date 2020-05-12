@@ -57,8 +57,10 @@ public class Engine extends JavaPlugin {
 
         this.getServer().getPluginManager().registerEvents(manager, this);
         this.getServer().getPluginManager().registerEvents(Engine.listener, this);
-        loadCommands();
         this.saveDefaultConfig();
+        /* Load commands after saving the config otherwise when you go to use the plugin
+         for the first time commands that generate data off the config don't work till restart/reload */
+        loadCommands();
         Engine.mm.OnEnable();
         Engine.mm.initDatabase();
         // On plugin reload, make sure that all online players are cached

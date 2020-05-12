@@ -173,8 +173,8 @@ public class CardCommand extends AbstractCommand {
                             sb.append("/");
                         }
                         final String raceString = sb.toString().trim();
-                        player.sendMessage(Lang.CARD_RACE_USAGE.toString().replace("%r",
-                                raceString.substring(0, raceString.length() - 1)));
+                        player.sendMessage(Lang.CARD_RACE_USAGE.toString()
+                                .replace("%r", raceString.substring(0, raceString.length() - 1)));
                     }
                 } else {
                     Engine.card.sendRaces(rpp);

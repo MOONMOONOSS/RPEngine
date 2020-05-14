@@ -53,7 +53,7 @@ public class RPEngineAPI {
         }
 
         OfflinePlayer p = Bukkit.getOfflinePlayer(playerName);
-        if (p == null) {
+        if (p == null || !p.hasPlayedBefore()) {
             return null;
         }
 

@@ -75,7 +75,7 @@ public class RPEngineAPI {
     public static int getRpAge(String playerName) {
         return Optional.ofNullable(getRoleplayPlayer(playerName))
             .map(RoleplayPlayer::getAge)
-            .orElse(-1);
+            .orElse(0);
     }
 
     public static Gender getRpGender(String playerName) {

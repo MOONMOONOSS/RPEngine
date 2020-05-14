@@ -6,6 +6,7 @@ import com.Alvaeron.player.RoleplayPlayer.Gender;
 import com.Alvaeron.utils.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
@@ -134,7 +135,11 @@ public class MySQLManager {
         });
     }
 
-    public void createRoleplayPlayer(final Player p) {
+    public void createRoleplayPlayer(final OfflinePlayer p) {
+        if (p.getUniqueId() == null || p.getName() == null) {
+            return;
+        }
+
         createRoleplayPlayer(p.getUniqueId(), p.getName());
     }
 

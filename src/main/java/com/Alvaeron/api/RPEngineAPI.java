@@ -6,8 +6,10 @@ import com.Alvaeron.player.RoleplayPlayer.Channel;
 import com.Alvaeron.player.RoleplayPlayer.Gender;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -45,83 +47,111 @@ public class RPEngineAPI {
      */
     @SuppressWarnings("deprecation")
     public static RoleplayPlayer getRoleplayPlayer(String playerName) {
-        if (Bukkit.getPlayer(playerName) != null) {
-            return Engine.manager.getPlayer(Bukkit.getPlayer(playerName).getUniqueId());
-        } else if (Bukkit.getOfflinePlayer(playerName) != null) {
-            Player p = (Player) Bukkit.getOfflinePlayer(playerName);
-            if (Engine.manager.getPlayer(p.getUniqueId()) != null) {
-                return Engine.manager.getPlayer(p.getUniqueId());
-            } else {
-                Engine.mm.createRoleplayPlayer(p);
-                return Engine.manager.getPlayer(p.getUniqueId());
-            }
-        } else {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player != null) {
+            return Engine.manager.getPlayer(player.getUniqueId());
+        }
+
+        OfflinePlayer p = Bukkit.getOfflinePlayer(playerName);
+        if (p == null || !p.hasPlayedBefore()) {
             return null;
+        }
+
+        RoleplayPlayer rpPlayer = Engine.manager.getPlayer(p.getUniqueId());
+        if (rpPlayer != null) {
+            return rpPlayer;
+        } else {
+            Engine.mm.createRoleplayPlayer(p);
+            return Engine.manager.getPlayer(p.getUniqueId());
         }
     }
 
     public static String getRpName(String playerName) {
-        return getRoleplayPlayer(playerName).getName();
+        return Optional.ofNullable(getRoleplayPlayer(playerName))
+            .map(RoleplayPlayer::getName)
+            .orElse("NONE");
     }
 
     public static int getRpAge(String playerName) {
-        return getRoleplayPlayer(playerName).getAge();
+        return Optional.ofNullable(getRoleplayPlayer(playerName))
+            .map(RoleplayPlayer::getAge)
+            .orElse(0);
     }
 
     public static Gender getRpGender(String playerName) {
-        return getRoleplayPlayer(playerName).getGender();
+        return Optional.ofNullable(getRoleplayPlayer(playerName))
+            .map(RoleplayPlayer::getGender)
+            .orElse(null);
     }
 
     public static String getRpRace(String playerName) {
-        return getRoleplayPlayer(playerName).getRace();
+        return Optional.ofNullable(getRoleplayPlayer(playerName))
+            .map(RoleplayPlayer::getRace)
+            .orElse("NONE");
     }
 
     public static String getRpNation(String playerName) {
-        return getRoleplayPlayer(playerName).getNation();
+        return Optional.ofNullable(getRoleplayPlayer(playerName))
+            .map(RoleplayPlayer::getNation)
+            .orElse("NONE");
     }
 
     public static String getRpDesc(String playerName) {
-        return getRoleplayPlayer(playerName).getDesc();
+        return Optional.ofNullable(getRoleplayPlayer(playerName))
+            .map(RoleplayPlayer::getDesc)
+            .orElse("NONE");
     }
 
     public static Channel getChannel(String playerName) {
-        return getRoleplayPlayer(playerName).getChannel();
+        return Optional.ofNullable(getRoleplayPlayer(playerName))
+            .map(RoleplayPlayer::getChannel)
+            .orElse(null);
     }
 
     public static boolean getOOC(String playerName) {
-        return getRoleplayPlayer(playerName).isOOC();
+        return Optional.ofNullable(getRoleplayPlayer(playerName))
+            .map(RoleplayPlayer::isOOC)
+            .orElse(false);
     }
 
     public static void setRpName(String playerName, String name) {
-        getRoleplayPlayer(playerName).setName(name);
+        Optional.ofNullable(getRoleplayPlayer(playerName))
+            .ifPresent(p -> p.setName(name));
     }
 
     public static void setRpAge(String playerName, int age) {
-        getRoleplayPlayer(playerName).setAge(age);
+        Optional.ofNullable(getRoleplayPlayer(playerName))
+            .ifPresent(p -> p.setAge(age));
     }
 
     public static void setRpGender(String playerName, Gender gender) {
-        getRoleplayPlayer(playerName).setGender(gender);
+        Optional.ofNullable(getRoleplayPlayer(playerName))
+            .ifPresent(p -> p.setGender(gender));
     }
 
     public static void setRpRace(String playerName, String race) {
-        getRoleplayPlayer(playerName).setRace(race);
+        Optional.ofNullable(getRoleplayPlayer(playerName))
+            .ifPresent(p -> p.setRace(race));
     }
 
     public static void setRpNation(String playerName, String nation) {
-        getRoleplayPlayer(playerName).setNation(nation);
+        Optional.ofNullable(getRoleplayPlayer(playerName))
+            .ifPresent(p -> p.setNation(nation));
     }
 
     public static void setRpDesc(String playerName, String desc) {
-        getRoleplayPlayer(playerName).setDesc(desc);
+        Optional.ofNullable(getRoleplayPlayer(playerName))
+            .ifPresent(p -> p.setDesc(desc));
     }
 
     public static void setChannel(String playerName, Channel channel) {
-        getRoleplayPlayer(playerName).setChannel(channel);
+        Optional.ofNullable(getRoleplayPlayer(playerName))
+            .ifPresent(p -> p.setChannel(channel));
     }
 
     public static void setOOC(String playerName, boolean ooc) {
-        getRoleplayPlayer(playerName).setOOC(ooc);
+        Optional.ofNullable(getRoleplayPlayer(playerName))
+            .ifPresent(p -> p.setOOC(ooc));
     }
 
     public static Set<String> getRaces() {
